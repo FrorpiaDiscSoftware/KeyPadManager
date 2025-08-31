@@ -1,0 +1,16 @@
+/*
+ * Automatically generated and cannot be edited.
+ */
+
+namespace FDSoft.KeyPadInput
+{
+    /// <summary>
+    /// 入力キーID
+    /// </summary>
+    /// <param name="Value">入力キーID</param>
+    /// <param name="KeyCode">対応するキーコード</param>
+    public partial record InputId(in uint Value, in KeyCode KeyCode)
+    {
+        {RecordValueContent}
+    }
+}
