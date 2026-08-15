@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using FDSoft.KeyPadInput.Editor.Profile;
 
 namespace FDSoft.KeyPadInput.Editor
 {
@@ -49,6 +50,11 @@ namespace FDSoft.KeyPadInput.Editor
         /// </summary>
         private const string INPUT_ID_GENERATE_FILE_SAVE_RELATIVE_PATH = "Generate/Scripts/InputId.Generate.cs";
         
+        /// <summary>
+        /// ローカライズ文言設定の保存先ファイルパス【Rootディレクトリからの相対パス】
+        /// </summary>
+        private const string LOCALIZE_PROFILE_RELATIVE_PATH = "Profiles/" + nameof(KpmEditorLocalizeProfile) + ".asset";
+        
         #endregion
         
         /// <summary>
@@ -76,6 +82,11 @@ namespace FDSoft.KeyPadInput.Editor
         /// 生成したInputIdレコードの保存先ファイルパス
         /// </summary>
         public string InputIDGenerateFileSavePath => $"{USER_ASSET_ROOT_DIR_PATH}/{INPUT_ID_GENERATE_FILE_SAVE_RELATIVE_PATH}";
+        
+        /// <summary>
+        /// ローカライズ文言設定の保存先ファイルパス
+        /// </summary>
+        public string LocalizeProfilePath => $"{RootDirPath}/{LOCALIZE_PROFILE_RELATIVE_PATH}";
         
         
         /// <summary>

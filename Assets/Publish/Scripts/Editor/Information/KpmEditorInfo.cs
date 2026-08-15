@@ -10,6 +10,11 @@ namespace FDSoft.KeyPadInput.Editor
         /// <summary>
         /// エディタパス情報
         /// </summary>
-        public static KpmEditorPathInfo PathInfo = new ();
+        public static readonly KpmEditorPathInfo PathInfo = new ();
+        
+        /// <summary>
+        /// ローカライズ文言情報
+        /// </summary>
+        public static readonly KpmEditorLocalizeInfo LocalizeInfo = new ();
     }
 }

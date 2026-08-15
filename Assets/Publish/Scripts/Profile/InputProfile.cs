@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using UnityEngine;
 
-namespace FDSoft.KeyPadInput
+namespace FDSoft.KeyPadInput.Profile
 {
     /// <summary>
     /// 入力情報設定
@@ -55,6 +55,9 @@ namespace FDSoft.KeyPadInput
         public void Initialize()
         {
             var newInputProfiles = new List<InputProfileData>();
+            
+            _nameToProfileDataTable.Clear();
+            _inputIdToProfileDataTable.Clear();
             
             foreach (var item in _inputProfiles)
             {

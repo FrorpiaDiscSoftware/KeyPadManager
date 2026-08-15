@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7efb7676496846d6b24cb58a426a8e7b, type: 3}
+  m_Name: KpmEditorLocalizeProfile
+  m_EditorClassIdentifier: 
+  _localizeDataTable:
+  - JpText: "{0}\u30DC\u30BF\u30F3"
+    EnText: '{0} button'
+    CnText: "{0} \u6309\u94AE"
+    Key: InputIdGenerateCommentSummary
+  - JpText: "{0}\u306E\u751F\u6210\u306B\u5931\u6557\u3057\u307E\u3057\u305F\u3002(\u300C{1}\u300D\u3092\u4F5C\u6210\u51FA\u6765\u307E\u305B\u3093\u3067\u3057\u305F)"
+    EnText: Failed to create {0}. (Could not create "{1}")
+    CnText: "\u65E0\u6CD5\u751F\u6210 {0}\u3002\uFF08\u65E0\u6CD5\u521B\u5EFA\u201C{1}\u201D\uFF09"
+    Key: InputProfileGenerateError00

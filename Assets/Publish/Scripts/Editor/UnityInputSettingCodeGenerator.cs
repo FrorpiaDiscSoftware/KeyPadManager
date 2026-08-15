@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using FDSoft.KeyPadInput.Editor.Profile;
 using UnityEditor;
 using UnityEngine;
 using FDSoft.UnityModules.Editor;
 using FDSoft.UnityModules.Editor.Utility;
+using FDSoft.KeyPadInput.Profile;
 
 namespace FDSoft.KeyPadInput.Editor
 {
@@ -39,7 +41,7 @@ namespace FDSoft.KeyPadInput.Editor
         
         
         /// <summary>
-        /// 入力キーIDのレコード更新
+        /// 入力キーIDレコードのソースファイルを更新する
         /// </summary>
         private void UpdateInputId()
         {
@@ -56,7 +58,7 @@ namespace FDSoft.KeyPadInput.Editor
             
             var variableNameIssueTable = new Dictionary<string, uint>(); // 変数で使う用の名前発行管理テーブル【[キー：変換前の名前][値：発行回数]】
             
-            EditorFileSystem.CreateDirectory(inputIDSaveDirPath);
+            UmEditorFileSystem.CreateDirectory(inputIDSaveDirPath);
             
             // Unity定義分のキーコード出力
             string inputIDTemplateFileContent = File.ReadAllText(inputIDTemplateFilePath);
@@ -66,6 +68,8 @@ namespace FDSoft.KeyPadInput.Editor
             foreach (var keyCode in Enum.GetValues(typeof(KeyCode)).Cast<KeyCode>().Distinct())
             {
                 string variableKeyCodeName = keyCode.ToString().ToVariableName(variableNameIssueTable); // 変数で使う用のキーコード名
+                string summaryText = KpmEditorInfo.LocalizeInfo
+                    .GetText("InputIdGenerateCommentSummary", KpmEditorLocalizeProfile.LangType.JP, keyCode.ToString());
                 
                 if (!string.IsNullOrEmpty(inputIDStaticVariableContent))
                 {
@@ -73,7 +77,7 @@ namespace FDSoft.KeyPadInput.Editor
                 }
                 
                 inputIDStaticVariableContent +=         "        /// <summary>";
-                inputIDStaticVariableContent += "\n" + $"        /// {keyCode}ボタン";
+                inputIDStaticVariableContent += "\n" + $"        /// {summaryText}";
                 inputIDStaticVariableContent += "\n" +  "        /// </summary>";
                 inputIDStaticVariableContent += "\n" + $"        public static readonly InputId {variableKeyCodeName} = new ({inputIDValueCount}, KeyCode.{keyCode});";
                 inputIDStaticVariableContent += "\n" +  "        ";
@@ -94,10 +98,12 @@ namespace FDSoft.KeyPadInput.Editor
                 if (string.IsNullOrEmpty(nameProperty.stringValue)) continue;
                 
                 string axesName = nameProperty.stringValue;
-                string variableAxesName = axesName.ToVariableName(variableNameIssueTable, EditorStringUtility.NamingType.PASCAL_CASE); // 変数で使う用の軸名
+                string variableAxesName = axesName.ToVariableName(variableNameIssueTable, UmEditorStringUtility.NamingType.PASCAL_CASE); // 変数で使う用の軸名
+                string summaryText = KpmEditorInfo.LocalizeInfo
+                    .GetText("InputIdGenerateCommentSummary", KpmEditorLocalizeProfile.LangType.JP, axesName);
                 
                 inputIDStaticVariableContent += $"\n        /// <summary>";
-                inputIDStaticVariableContent += $"\n        /// {axesName}ボタン";
+                inputIDStaticVariableContent += $"\n        /// {summaryText}";
                 inputIDStaticVariableContent += $"\n        /// </summary>";
                 inputIDStaticVariableContent += $"\n        public static readonly InputId {variableAxesName} = new ({inputIDValueCount}, KeyCode.None);";
                 inputIDStaticVariableContent += $"\n        ";
@@ -111,6 +117,35 @@ namespace FDSoft.KeyPadInput.Editor
             File.WriteAllText(inputIDSaveFilePath, inputIDTemplateFileContent);
             
             AssetDatabase.Refresh();
+        }
+        
+        /// <summary>
+        /// <see cref="InputProfile"/>アセットを更新する
+        /// </summary>
+        private void UpdateInputProfile()
+        {
+            string inputSettingFilePath = KpmEditorInfo.PathInfo.InputManagerSettingFilePath;
+            string inputIDSaveFilePath = KpmEditorInfo.PathInfo.InputIDGenerateFileSavePath;
+            
+            // InputIdの生成ファイルがなければまずは生成させる
+            if (!File.Exists(inputIDSaveFilePath))
+            {
+                UpdateInputId();
+                if (!File.Exists(inputIDSaveFilePath))
+                {
+                    string inputIDSaveFileName = string.Join("/", inputIDSaveFilePath.Split("/").LastOrDefault());
+                    string errorText = KpmEditorInfo.LocalizeInfo
+                        .GetText(
+                            "InputProfileGenerateError00",
+                            KpmEditorLocalizeProfile.LangType.JP,
+                            nameof(InputProfile),
+                            inputIDSaveFileName);
+                    
+                    Debug.LogError(errorText);
+                    return;
+                }
+            }
+            
         }
     }
 }
